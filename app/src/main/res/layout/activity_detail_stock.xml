@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_detail_stock"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.example.czz.stockknower.activity.DetailStockActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_font_large"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_stockNameDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="浦发银行"
+        android:textColor="@color/black"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tv_stockIdWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="股票编号:"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+        <TextView
+            android:id="@+id/tv_stockId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_stockIdWord"
+            android:text="sh600000"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_stockData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_traNumberWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MarketText"
+            android:layout_marginLeft="10dp"
+            android:text="@string/dealNum"/>
+
+        <TextView
+            android:id="@+id/tv_traNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_traNumberWord"
+            style="@style/MarketText"
+            android:text="34501453"/>
+
+        <TextView
+            android:id="@+id/tv_traAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MarketText"
+            android:layout_toRightOf="@+id/tv_traAmountWord"
+            android:text="290889560"/>
+
+        <TextView
+            android:id="@+id/tv_traAmountWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_timeDetailWord"
+            style="@style/MarketText"
+            android:text="@string/dealPri"/>
+
+        <TextView
+            android:id="@+id/tv_increaseDetailWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_traNumberWord"
+            android:layout_alignLeft="@+id/tv_traNumberWord"
+            style="@style/MarketText"
+            android:text="@string/increase"/>
+
+        <TextView
+            android:id="@+id/tv_increaseDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MarketText"
+            android:layout_alignBottom="@+id/tv_increaseDetailWord"
+            android:layout_toRightOf="@+id/tv_increaseDetailWord"
+            android:text="43.99"/>
+
+        <TextView
+            android:id="@+id/tv_increPerDetailWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MarketText"
+            android:layout_below="@+id/tv_traAmountWord"
+            android:layout_alignLeft="@+id/tv_timeDetailWord"
+            android:text="@string/increPer"/>
+
+        <TextView
+            android:id="@+id/tv_increPerDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_increaseDetailWord"
+            android:layout_toRightOf="@id/tv_increPerDetailWord"
+            style="@style/MarketText"
+            android:text="9.91%" />
+
+        <TextView
+            android:id="@+id/tv_todayStartPriWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_increaseDetailWord"
+            android:layout_alignLeft="@+id/tv_increaseDetailWord"
+            style="@style/MarketText"
+            android:text="@string/openPri"/>
+
+        <TextView
+            android:id="@+id/tv_todayStartPri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tv_todayStartPriWord"
+            android:layout_toRightOf="@id/tv_todayStartPriWord"
+            style="@style/MarketText"
+            android:text="8.26"/>
+
+        <TextView
+            android:id="@+id/tv_yestodayEndPriWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_increPerDetailWord"
+            android:layout_alignLeft="@+id/tv_timeDetailWord"
+            android:text="@string/yesPri"
+            style="@style/MarketText"/>
+
+        <TextView
+            android:id="@+id/tv_yestodayEndPri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_yestodayEndPriWord"
+            android:layout_toRightOf="@id/tv_yestodayEndPriWord"
+            style="@style/MarketText"
+            android:text="8.26"/>
+
+        <TextView
+            android:id="@+id/tv_inPriWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_todayStartPriWord"
+            android:layout_below="@id/tv_todayStartPriWord"
+            style="@style/MarketText"
+            android:text="@string/inPri"/>
+
+        <TextView
+            android:id="@+id/tv_inPri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_inPriWord"
+            android:layout_below="@+id/tv_todayStartPriWord"
+            style="@style/MarketText"
+            android:text="8.37"/>
+
+        <TextView
+            android:id="@+id/tv_outPriWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_timeDetailWord"
+            android:layout_below="@+id/tv_yestodayEndPriWord"
+            style="@style/MarketText"
+            android:text="@string/outPri" />
+
+        <TextView
+            android:id="@+id/tv_outPri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_outPriWord"
+            android:layout_below="@+id/tv_yestodayEndPriWord"
+            style="@style/MarketText"
+            android:text="8.38"/>
+
+        <TextView
+            android:id="@+id/tv_todayMaxWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_inPriWord"
+            android:layout_below="@+id/tv_inPriWord"
+            style="@style/MarketText"
+            android:text="@string/highPri" />
+
+        <TextView
+            android:id="@+id/tv_todayMax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_todayMaxWord"
+            android:layout_below="@+id/tv_inPriWord"
+            style="@style/MarketText"
+            android:text="8.55" />
+
+        <TextView
+            android:id="@+id/tv_todayMinWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_outPriWord"
+            android:layout_alignLeft="@+id/tv_timeDetailWord"
+            style="@style/MarketText"
+            android:text="@string/lowPri"/>
+
+        <TextView
+            android:id="@+id/tv_todayMin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_todayMinWord"
+            android:layout_below="@id/tv_outPriWord"
+            style="@style/MarketText"
+            android:text="8.25"/>
+
+        <TextView
+            android:id="@+id/tv_nowPriWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_todayMaxWord"
+            android:layout_alignLeft="@id/tv_todayMaxWord"
+            style="@style/MarketText"
+            android:text="@string/nowPri" />
+
+        <TextView
+            android:id="@+id/tv_nowPri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_nowPriWord"
+            android:layout_below="@id/tv_todayMaxWord"
+            style="@style/MarketText"
+            android:text="8.37"/>
+
+        <TextView
+            android:id="@+id/tv_timeDetailWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_timeDetail"
+            android:layout_below="@id/tv_todayMinWord"
+            android:text="@string/time"
+            style="@style/MarketText"/>
+
+        <TextView
+            android:id="@+id/tv_timeDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/tv_todayMinWord"
+            style="@style/MarketText"
+            android:text="2017-02-06 15:03:06"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_todayImgTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:text="今日K线图"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:layout_weight="1"
+        android:id="@+id/iv_stockKimg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/sh601009"/>
+
+
+</LinearLayout>

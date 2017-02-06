@@ -3,7 +3,18 @@
     <string name="tab_one">大盘</string>
     <string name="tab_two">搜索</string>
     <string name="tab_three">我的</string>
-
+    <string name="dealNum">成交量:</string>
+    <string name="dealPri">成交额:</string>
+    <string name="highPri">最高:</string>
+    <string name="lowPri">最低:</string>
+    <string name="increPer">涨跌百分比:</string>
+    <string name="increase">涨跌幅:</string>
+    <string name="nowPri">当前价格:</string>
+    <string name="openPri">今开:</string>
+    <string name="time">时间:</string>
+    <string name="yesPri">昨收:</string>
+    <string name="inPri">买入价:</string>
+    <string name="outPri">卖出价:</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
