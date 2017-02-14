@@ -2,6 +2,7 @@ package com.example.czz.stockknower.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -23,7 +24,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.czz.stockknower.R;
+import com.example.czz.stockknower.activity.DetailStockActivity;
+import com.example.czz.stockknower.bean.HkStockInfo;
 import com.example.czz.stockknower.bean.StockInfo;
+import com.example.czz.stockknower.bean.UsaStockInfo;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -42,6 +46,7 @@ public class QueryFragment extends Fragment implements View.OnClickListener{
     private List<TextView> tvList;
     private RequestQueue queue;
     private RelativeLayout rl_searchRes;
+    private String currentStockID;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +75,7 @@ public class QueryFragment extends Fragment implements View.OnClickListener{
         tv_hsStock.setOnClickListener(this);
         tv_hkStock.setOnClickListener(this);
         tv_usaStock.setOnClickListener(this);
+        rl_searchRes.setOnClickListener(this);
 
         tvList = new ArrayList<>();
         tvList.add(tv_hsStock);
@@ -88,7 +94,8 @@ public class QueryFragment extends Fragment implements View.OnClickListener{
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+            rl_stockType.setVisibility(View.VISIBLE);
+            rl_searchRes.setVisibility(View.GONE);
         }
 
         @Override
@@ -140,6 +147,12 @@ public class QueryFragment extends Fragment implements View.OnClickListener{
                 }
                 currentType=3;
                 break;
+            case R.id.rl_searchRes:
+                Intent intent = new Intent(getActivity(), DetailStockActivity.class);
+                intent.putExtra("position",currentType);
+                intent.putExtra("stockID",currentStockID);
+                startActivity(intent);
+                break;
         }
     }
     //查询方法
@@ -162,7 +175,7 @@ public class QueryFragment extends Fragment implements View.OnClickListener{
                             Toast.makeText(getActivity(),"没有找到该股票",Toast.LENGTH_SHORT).show();
                         }else if (reason.equals("SUCCESSED!")){
                             String stockName = info.getResult().get(0).getData().getName();
-                            String stockID = info.getResult().get(0).getData().getGid();
+                            currentStockID = info.getResult().get(0).getData().getGid();
                             String increPer = info.getResult().get(0).getData().getIncrePer();
                             tv_resStockName.setText(stockName);
                             double per = Double.parseDouble(increPer);
@@ -181,16 +194,94 @@ public class QueryFragment extends Fragment implements View.OnClickListener{
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(getActivity(),error.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
                 queue.add(stockSearchReq);
                 queue.start();
             }
         }else if (currentType==2){
+            if (et_stockID.getText().toString().length()==0){
+                Toast.makeText(getActivity(),"请输入要查询的股票ID",Toast.LENGTH_SHORT).show();
+            }else {
+                StringRequest hkStockSearchReq = new StringRequest("http://web.juhe.cn:8080/finance/stock/hk?num="+et_stockID.getText().toString()+"&key=727b1a6c826ae31340205b53ef704af3", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Gson gson = new Gson();
+                        HkStockInfo hkInfo = gson.fromJson(response, HkStockInfo.class);
+                        String reason = hkInfo.getReason();
+                        if (reason.equals("error param!")){
+                            Toast.makeText(getActivity(),"请输入正确的股票ID",Toast.LENGTH_SHORT).show();
+                        }else if (reason.equals("not found!")){
+                            Toast.makeText(getActivity(),"没有找到该股票",Toast.LENGTH_SHORT).show();
+                        }else if (reason.equals("SUCCESSED!")){
+                            String hkStockName = hkInfo.getResult().get(0).getData().getName();
+                            currentStockID = et_stockID.getText().toString();
+                            String hkIncrePer = hkInfo.getResult().get(0).getData().getLimit();
+                            tv_resStockName.setText(hkStockName);
+                            double per = Double.parseDouble(hkIncrePer);
+                            if (per>=0){
+                                tv_resStockPri.setText("+"+hkIncrePer+"%");
+                                tv_resStockPri.setTextColor(ContextCompat.getColor(getActivity(),R.color.red));
+                            }else {
+                                tv_resStockPri.setText("-"+hkIncrePer+"%");
+                                tv_resStockPri.setTextColor(ContextCompat.getColor(getActivity(),R.color.green));
+                            }
+                            rl_stockType.setVisibility(View.GONE);
+                            rl_searchRes.setVisibility(View.VISIBLE);
 
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(),error.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+                queue.add(hkStockSearchReq);
+                queue.start();
+            }
         }else if (currentType==3){
+            if (et_stockID.getText().toString().length()==0){
+                Toast.makeText(getActivity(),"请输入要查询的股票ID",Toast.LENGTH_SHORT).show();
+            }else {
+                StringRequest hkStockSearchReq = new StringRequest("http://web.juhe.cn:8080/finance/stock/usa?gid="+et_stockID.getText().toString()+"&key=727b1a6c826ae31340205b53ef704af3", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Gson gson = new Gson();
+                        UsaStockInfo usaInfo = gson.fromJson(response, UsaStockInfo.class);
+                        String reason = usaInfo.getReason();
+                        if (reason.equals("error param!")){
+                            Toast.makeText(getActivity(),"请输入正确的股票ID",Toast.LENGTH_SHORT).show();
+                        }else if (reason.equals("not found!")){
+                            Toast.makeText(getActivity(),"没有找到该股票",Toast.LENGTH_SHORT).show();
+                        }else if (reason.equals("SUCCESSED!")){
+                            String usaStockName = usaInfo.getResult().get(0).getData().getName();
+                            currentStockID = usaInfo.getResult().get(0).getData().getGid();
+                            String usaIncrePer = usaInfo.getResult().get(0).getData().getLimit();
+                            tv_resStockName.setText(usaStockName);
+                            double per = Double.parseDouble(usaIncrePer);
+                            if (per>=0){
+                                tv_resStockPri.setText("+"+usaIncrePer+"%");
+                                tv_resStockPri.setTextColor(ContextCompat.getColor(getActivity(),R.color.red));
+                            }else {
+                                tv_resStockPri.setText("-"+usaIncrePer+"%");
+                                tv_resStockPri.setTextColor(ContextCompat.getColor(getActivity(),R.color.green));
+                            }
+                            rl_stockType.setVisibility(View.GONE);
+                            rl_searchRes.setVisibility(View.VISIBLE);
 
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(),error.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+                queue.add(hkStockSearchReq);
+                queue.start();
+            }
         }
     }
 }

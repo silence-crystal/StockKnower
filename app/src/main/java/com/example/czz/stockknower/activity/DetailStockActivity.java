@@ -3,6 +3,7 @@ package com.example.czz.stockknower.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ public class DetailStockActivity extends Activity {
     private RequestQueue queue;
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
+    private int intentType;
+    private String reqID;
 
 
     @Override
@@ -71,21 +74,37 @@ public class DetailStockActivity extends Activity {
         Intent intent = getIntent();
         int position = intent.getIntExtra("position",0);
         Object detailStock = intent.getSerializableExtra("stock");
+        String stockID = intent.getStringExtra("stockID");
+        if (detailStock==null){
+            intentType=1;
+        }else {
+            intentType=2;
+        }
 
         Toast.makeText(this,position+"",Toast.LENGTH_SHORT).show();
 
-        if (position==0 || position==1){
-            Stock.ResultBean.DataBean stock= (Stock.ResultBean.DataBean) detailStock;
-            tv_stockNameDetail.setText(stock.getName());
-            tv_stockId.setText(stock.getSymbol());
+        netRequest(position, detailStock,stockID);
+    }
 
-            StringRequest stockInfoReq = new StringRequest("http://web.juhe.cn:8080/finance/stock/hs?gid="+stock.getSymbol()+"&key=727b1a6c826ae31340205b53ef704af3", new Response.Listener<String>() {
+    private void netRequest(int position, Object detailStock,String stockID) {
+        if (position==0 || position==1){
+
+            if (intentType==1){
+                reqID = stockID;
+            }else if (intentType==2){
+                Stock.ResultBean.DataBean stock= (Stock.ResultBean.DataBean) detailStock;
+                reqID = stock.getSymbol();
+            }
+
+            StringRequest stockInfoReq = new StringRequest("http://web.juhe.cn:8080/finance/stock/hs?gid="+reqID+"&key=727b1a6c826ae31340205b53ef704af3", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Gson gson = new Gson();
                     StockInfo info = gson.fromJson(response, StockInfo.class);
                     StockInfo.ResultBean.DataBean data = info.getResult().get(0).getData();
                     String imgUrl = info.getResult().get(0).getGopicture().getDayurl();
+                    tv_stockNameDetail.setText(data.getName());
+                    tv_stockId.setText(data.getGid());
                     tv_traNumber.setText(data.getTraNumber());
                     tv_traAmount.setText(data.getTraAmount());
                     tv_increaseDetail.setText(data.getIncrease());
@@ -111,9 +130,15 @@ public class DetailStockActivity extends Activity {
             queue.start();
 
         }else if (position==2){
-            HongKongStock.ResultBean.DataBean hkStock = (HongKongStock.ResultBean.DataBean) detailStock;
 
-            StringRequest hkStockInfoReq = new StringRequest("http://web.juhe.cn:8080/finance/stock/hk?num="+hkStock.getSymbol()+"&key=727b1a6c826ae31340205b53ef704af3", new Response.Listener<String>() {
+            if (intentType==1){
+                reqID = stockID;
+            }else if (intentType==2){
+                HongKongStock.ResultBean.DataBean hkStock = (HongKongStock.ResultBean.DataBean) detailStock;
+                reqID = hkStock.getSymbol();
+            }
+
+            StringRequest hkStockInfoReq = new StringRequest("http://web.juhe.cn:8080/finance/stock/hk?num="+reqID+"&key=727b1a6c826ae31340205b53ef704af3", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Gson gson = new Gson();
@@ -146,9 +171,15 @@ public class DetailStockActivity extends Activity {
             queue.start();
 
         }else if (position==3){
-            AmericaStock.ResultBean.DataBean usaStock = (AmericaStock.ResultBean.DataBean) detailStock;
 
-            StringRequest usaStockInfoReq = new StringRequest("http://web.juhe.cn:8080/finance/stock/usa?gid="+usaStock.getSymbol()+"&key=727b1a6c826ae31340205b53ef704af3", new Response.Listener<String>() {
+            if (intentType==1){
+                reqID = stockID;
+            }else if (intentType==2){
+                AmericaStock.ResultBean.DataBean usaStock = (AmericaStock.ResultBean.DataBean) detailStock;
+                reqID = usaStock.getSymbol();
+            }
+
+            StringRequest usaStockInfoReq = new StringRequest("http://web.juhe.cn:8080/finance/stock/usa?gid="+reqID+"&key=727b1a6c826ae31340205b53ef704af3", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Gson gson = new Gson();
