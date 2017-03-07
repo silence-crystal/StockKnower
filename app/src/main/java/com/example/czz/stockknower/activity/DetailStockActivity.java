@@ -16,6 +16,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.czz.stockknower.R;
 import com.example.czz.stockknower.bean.AmericaStock;
+import com.example.czz.stockknower.bean.CollectionInfo;
 import com.example.czz.stockknower.bean.HkStockInfo;
 import com.example.czz.stockknower.bean.HongKongStock;
 import com.example.czz.stockknower.bean.Stock;
@@ -25,7 +26,11 @@ import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class DetailStockActivity extends Activity {
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
+
+public class DetailStockActivity extends Activity implements View.OnClickListener{
     private TextView tv_stockNameDetail;//股票名称
     private TextView tv_stockId;//股票编号
     private TextView tv_traNumber;//成交量
@@ -43,12 +48,15 @@ public class DetailStockActivity extends Activity {
     private TextView tv_nowPri;//当前价格
     private TextView tv_timeDetail;//时间
     private ImageView iv_stockKimg;//今日k线图
+    private TextView tv_collection;
 
     private RequestQueue queue;
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
     private int intentType;
     private String reqID;
+    private int position;
+    private String stockID;
 
 
     @Override
@@ -72,9 +80,9 @@ public class DetailStockActivity extends Activity {
 
     private void initData() {
         Intent intent = getIntent();
-        int position = intent.getIntExtra("position",0);
+        position = intent.getIntExtra("position",0);
         Object detailStock = intent.getSerializableExtra("stock");
-        String stockID = intent.getStringExtra("stockID");
+        stockID = intent.getStringExtra("stockID");
         if (detailStock==null){
             intentType=1;
         }else {
@@ -83,10 +91,10 @@ public class DetailStockActivity extends Activity {
 
         Toast.makeText(this,position+"",Toast.LENGTH_SHORT).show();
 
-        netRequest(position, detailStock,stockID);
+        netRequest(detailStock);
     }
 
-    private void netRequest(int position, Object detailStock,String stockID) {
+    private void netRequest(Object detailStock) {
         if (position==0 || position==1){
 
             if (intentType==1){
@@ -233,5 +241,33 @@ public class DetailStockActivity extends Activity {
         tv_nowPri = (TextView) findViewById(R.id.tv_nowPri);
         tv_timeDetail = (TextView) findViewById(R.id.tv_timeDetail);
         iv_stockKimg = (ImageView) findViewById(R.id.iv_stockKimg);
+        tv_collection = (TextView) findViewById(R.id.tv_collection);
+
+        tv_collection.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        BmobUser user = BmobUser.getCurrentUser();
+        if (user==null){
+            Intent intent = new Intent(DetailStockActivity.this,LoginActivity.class);
+            startActivity(intent);
+        }else {
+            CollectionInfo info = new CollectionInfo();
+            info.setType(position+"".trim());
+            info.setStockID(tv_stockId.getText().toString());
+            info.setStockName(tv_stockNameDetail.getText().toString());
+            info.setUserID(user.getObjectId());
+            info.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e==null){
+                        Toast.makeText(DetailStockActivity.this,"创建成功"+s,Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(DetailStockActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 }

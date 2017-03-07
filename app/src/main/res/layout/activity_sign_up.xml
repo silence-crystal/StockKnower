@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_sign_up"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical"
+    tools:context="com.example.czz.stockknower.activity.SignUpActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_font_large"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/login_head"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:layout_margin="40dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/username"/>
+
+        <EditText
+            android:id="@+id/et_signup_username"
+            android:layout_width="260dp"
+            android:layout_height="30dp"
+            android:ems="12"
+            android:background="@color/gray_white"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:hint="请输入用户名" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="290dp"
+        android:layout_height="1dp"
+        android:background="#1296db"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/password"/>
+
+        <EditText
+            android:id="@+id/et_signup_password"
+            android:layout_width="260dp"
+            android:layout_height="30dp"
+            android:ems="12"
+            android:background="@color/gray_white"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:inputType="textPassword"
+            android:hint="请输入密码" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="290dp"
+        android:layout_height="1dp"
+        android:background="#1296db"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/password"/>
+
+        <EditText
+            android:id="@+id/et_signup_surepass"
+            android:layout_width="260dp"
+            android:layout_height="30dp"
+            android:ems="12"
+            android:background="@color/gray_white"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:inputType="textPassword"
+            android:hint="请输入确认密码" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="290dp"
+        android:layout_height="1dp"
+        android:background="#1296db"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/tv_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_button"
+        android:text="注册"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:gravity="center" />
+
+</LinearLayout>

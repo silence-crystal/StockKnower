@@ -16,6 +16,8 @@ import com.example.czz.stockknower.fragment.MineFragment;
 import com.example.czz.stockknower.fragment.QueryFragment;
 import com.example.czz.stockknower.fragment.StockFragment;
 
+import cn.bmob.v3.Bmob;
+
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
     private Fragment stockFragment,queryFragment,mineFragment,currentFragment;
     private TextView tv_stock,tv_query,tv_mine;
@@ -26,6 +28,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Bmob.initialize(this,"e80bbbbaf06b28f4f2486871f49f73fa");
         initFragment();
         initBottomBar();
     }
