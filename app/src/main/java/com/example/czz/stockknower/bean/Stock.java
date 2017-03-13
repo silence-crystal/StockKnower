@@ -119,7 +119,7 @@ public class Stock {
             private String high;
             private String low;
             private int volume;
-            private int amount;
+            private double amount;
             private String code;
             private String ticktime;
 
@@ -219,11 +219,11 @@ public class Stock {
                 this.volume = volume;
             }
 
-            public int getAmount() {
+            public double getAmount() {
                 return amount;
             }
 
-            public void setAmount(int amount) {
+            public void setAmount(double amount) {
                 this.amount = amount;
             }
 

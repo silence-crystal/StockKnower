@@ -34,6 +34,16 @@
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"/>
 
+        <ImageView
+            android:id="@+id/img_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/share"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_collection"
+            android:layout_marginRight="20dp"/>
+
+
     </RelativeLayout>
 
     <TextView
@@ -41,7 +51,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:text="浦发银行"
         android:textColor="@color/black"
         android:layout_margin="10dp"
         android:layout_gravity="center_horizontal"/>
@@ -64,7 +73,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_stockIdWord"
-            android:text="sh600000"
             android:textColor="@color/black"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
@@ -90,16 +98,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_traNumberWord"
-            style="@style/MarketText"
-            android:text="34501453"/>
+            style="@style/MarketText" />
 
         <TextView
             android:id="@+id/tv_traAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/MarketText"
-            android:layout_toRightOf="@+id/tv_traAmountWord"
-            android:text="290889560"/>
+            android:layout_toRightOf="@+id/tv_traAmountWord" />
 
         <TextView
             android:id="@+id/tv_traAmountWord"
@@ -124,8 +130,7 @@
             android:layout_height="wrap_content"
             style="@style/MarketText"
             android:layout_alignBottom="@+id/tv_increaseDetailWord"
-            android:layout_toRightOf="@+id/tv_increaseDetailWord"
-            android:text="43.99"/>
+            android:layout_toRightOf="@+id/tv_increaseDetailWord" />
 
         <TextView
             android:id="@+id/tv_increPerDetailWord"
@@ -142,8 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_increaseDetailWord"
             android:layout_toRightOf="@id/tv_increPerDetailWord"
-            style="@style/MarketText"
-            android:text="9.91%" />
+            style="@style/MarketText" />
 
         <TextView
             android:id="@+id/tv_todayStartPriWord"
@@ -160,8 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/tv_todayStartPriWord"
             android:layout_toRightOf="@id/tv_todayStartPriWord"
-            style="@style/MarketText"
-            android:text="8.26"/>
+            style="@style/MarketText" />
 
         <TextView
             android:id="@+id/tv_yestodayEndPriWord"
@@ -178,8 +181,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_yestodayEndPriWord"
             android:layout_toRightOf="@id/tv_yestodayEndPriWord"
-            style="@style/MarketText"
-            android:text="8.26"/>
+            style="@style/MarketText" />
 
         <TextView
             android:id="@+id/tv_inPriWord"
@@ -196,8 +198,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_inPriWord"
             android:layout_below="@+id/tv_todayStartPriWord"
-            style="@style/MarketText"
-            android:text="8.37"/>
+            style="@style/MarketText" />
 
         <TextView
             android:id="@+id/tv_outPriWord"
@@ -214,8 +215,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_outPriWord"
             android:layout_below="@+id/tv_yestodayEndPriWord"
-            style="@style/MarketText"
-            android:text="8.38"/>
+            style="@style/MarketText" />
 
         <TextView
             android:id="@+id/tv_todayMaxWord"
@@ -232,8 +232,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_todayMaxWord"
             android:layout_below="@+id/tv_inPriWord"
-            style="@style/MarketText"
-            android:text="8.55" />
+            style="@style/MarketText" />
 
         <TextView
             android:id="@+id/tv_todayMinWord"
@@ -250,8 +249,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_todayMinWord"
             android:layout_below="@id/tv_outPriWord"
-            style="@style/MarketText"
-            android:text="8.25"/>
+            style="@style/MarketText" />
 
         <TextView
             android:id="@+id/tv_nowPriWord"
@@ -268,8 +266,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_nowPriWord"
             android:layout_below="@id/tv_todayMaxWord"
-            style="@style/MarketText"
-            android:text="8.37"/>
+            style="@style/MarketText" />
 
         <TextView
             android:id="@+id/tv_timeDetailWord"
@@ -307,8 +304,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/sh601009"/>
+        android:scaleType="fitXY" />
 
 
 </LinearLayout>

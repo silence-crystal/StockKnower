@@ -8,13 +8,16 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.czz.stockknower.R;
 import com.example.czz.stockknower.fragment.MineFragment;
 import com.example.czz.stockknower.fragment.QueryFragment;
 import com.example.czz.stockknower.fragment.StockFragment;
+import com.example.czz.stockknower.utils.CloseAllActivitys;
 
 import cn.bmob.v3.Bmob;
 
@@ -24,10 +27,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private FragmentManager manager;
     private FragmentTransaction transaction;
     private Drawable stockTop,queryTop,mineTop;
+    private long time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CloseAllActivitys.list.add(this);
         Bmob.initialize(this,"e80bbbbaf06b28f4f2486871f49f73fa");
         initFragment();
         initBottomBar();
@@ -114,4 +119,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         currentFragment = fragment;
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (System.currentTimeMillis()-time<2000){
+            CloseAllActivitys.closeAllActivity();
+        }else {
+            time = System.currentTimeMillis();
+            Toast.makeText(MainActivity.this,"再按一次退出本程序",Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
 }

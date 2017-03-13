@@ -32,7 +32,7 @@ public class CollectionActivity extends Activity implements AdapterView.OnItemCl
 
         listView = (ListView) findViewById(R.id.lv_collect);
         listView.setOnItemClickListener(this);
-        initData();
+
     }
 
     private void initData() {
@@ -72,5 +72,11 @@ public class CollectionActivity extends Activity implements AdapterView.OnItemCl
         intent.putExtra("position",Integer.parseInt(colList.get(position).getType()));
         startActivity(intent);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 }

@@ -2,8 +2,9 @@ package com.example.czz.stockknower.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,8 +27,18 @@ import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class DetailStockActivity extends Activity implements View.OnClickListener{
@@ -49,6 +60,7 @@ public class DetailStockActivity extends Activity implements View.OnClickListene
     private TextView tv_timeDetail;//时间
     private ImageView iv_stockKimg;//今日k线图
     private TextView tv_collection;
+    private ImageView img_share;
 
     private RequestQueue queue;
     private DisplayImageOptions options;
@@ -57,6 +69,7 @@ public class DetailStockActivity extends Activity implements View.OnClickListene
     private String reqID;
     private int position;
     private String stockID;
+    private ArrayList<CollectionInfo> collectedList;
 
 
     @Override
@@ -65,8 +78,8 @@ public class DetailStockActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.activity_detail_stock);
 
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.mipmap.ic_launcher)
-                .showImageOnFail(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.mipmap.loading)
+                .showImageOnFail(R.mipmap.loadfailed)
                 .build();
 
         imageLoader = ImageLoader.getInstance();
@@ -88,8 +101,6 @@ public class DetailStockActivity extends Activity implements View.OnClickListene
         }else {
             intentType=2;
         }
-
-        Toast.makeText(this,position+"",Toast.LENGTH_SHORT).show();
 
         netRequest(detailStock);
     }
@@ -242,32 +253,88 @@ public class DetailStockActivity extends Activity implements View.OnClickListene
         tv_timeDetail = (TextView) findViewById(R.id.tv_timeDetail);
         iv_stockKimg = (ImageView) findViewById(R.id.iv_stockKimg);
         tv_collection = (TextView) findViewById(R.id.tv_collection);
+        img_share = (ImageView) findViewById(R.id.img_share);
+
 
         tv_collection.setOnClickListener(this);
+        img_share.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        BmobUser user = BmobUser.getCurrentUser();
-        if (user==null){
-            Intent intent = new Intent(DetailStockActivity.this,LoginActivity.class);
-            startActivity(intent);
-        }else {
-            CollectionInfo info = new CollectionInfo();
-            info.setType(position+"".trim());
-            info.setStockID(tv_stockId.getText().toString());
-            info.setStockName(tv_stockNameDetail.getText().toString());
-            info.setUserID(user.getObjectId());
-            info.save(new SaveListener<String>() {
-                @Override
-                public void done(String s, BmobException e) {
-                    if (e==null){
-                        Toast.makeText(DetailStockActivity.this,"创建成功"+s,Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(DetailStockActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
+        switch (v.getId()){
+            case R.id.tv_collection:
+                final BmobUser user = BmobUser.getCurrentUser();
+                if (user==null){
+                    Intent intent = new Intent(DetailStockActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    BmobQuery<CollectionInfo> query = new BmobQuery<>();
+                    query.addWhereEqualTo("userID",user.getObjectId());
+                    query.setLimit(1000);
+                    query.findObjects(new FindListener<CollectionInfo>() {
+                        @Override
+                        public void done(List<CollectionInfo> list, BmobException e) {
+                            if (e==null){
+                                collectedList = (ArrayList<CollectionInfo>) list;
+                                boolean isCollect = false;
+                                for (int i=0;i<collectedList.size();i++){
+                                    if (collectedList.get(i).getStockID().equals(tv_stockId.getText().toString())){
+                                        isCollect=true;
+                                        Toast.makeText(DetailStockActivity.this,"已经收藏过啦",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                if (!isCollect){
+                                    CollectionInfo info = new CollectionInfo();
+                                    info.setType(position+"".trim());
+                                    info.setStockID(tv_stockId.getText().toString());
+                                    info.setStockName(tv_stockNameDetail.getText().toString());
+                                    info.setUserID(user.getObjectId());
+                                    info.save(new SaveListener<String>() {
+                                        @Override
+                                        public void done(String s, BmobException e) {
+                                            if (e==null){
+                                                Toast.makeText(DetailStockActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
+                                            }else {
+                                                Toast.makeText(DetailStockActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+                            }else{
+                                Toast.makeText(DetailStockActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
-            });
+                break;
+            case R.id.img_share:
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss",
+                        Locale.US);
+                String fname = "/sdcard/" + sdf.format(new Date()) + ".png";
+                View view = v.getRootView();
+                view.setDrawingCacheEnabled(true);
+                view.buildDrawingCache();
+                Bitmap bitmap = view.getDrawingCache();
+                if (bitmap != null) {
+                    System.out.println("bitmapgot!");
+                    try {
+                        FileOutputStream out = new FileOutputStream(fname);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                        Uri imageUri = Uri.fromFile(new File(fname));
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+                        shareIntent.setType("image/*");
+                        startActivity(Intent.createChooser(shareIntent, "分享到"));
+                        System.out.println("file" + fname + "所得图片");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("bitmap is NULL!");
+                }
+                break;
         }
     }
 }
