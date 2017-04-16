@@ -83,8 +83,8 @@ public class MineFragment extends Fragment implements View.OnClickListener,Adapt
                 }
                 break;
             case R.id.img_head://头像
-                BmobUser user1 = BmobUser.getCurrentUser();
-                if (user1==null){
+                BmobUser userHead = BmobUser.getCurrentUser();
+                if (userHead==null){
                     Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(loginIntent);
                 }else {
@@ -92,8 +92,14 @@ public class MineFragment extends Fragment implements View.OnClickListener,Adapt
                 }
                 break;
             case R.id.rl_collection://我的收藏
-                Intent collectionIntent = new Intent(getActivity(), CollectionActivity.class);
-                startActivity(collectionIntent);
+                BmobUser userCol = BmobUser.getCurrentUser();
+                if (userCol==null){
+                    Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(loginIntent);
+                }else {
+                    Intent collectionIntent = new Intent(getActivity(), CollectionActivity.class);
+                    startActivity(collectionIntent);
+                }
                 break;
             case R.id.rl_aboutus://关于我们
                 Intent aboutUsIntent = new Intent(getActivity(), AboutUsActivity.class);
