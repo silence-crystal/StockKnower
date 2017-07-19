@@ -1,1 +1,1 @@
-"# StockKnower" 
+# StockKnower
